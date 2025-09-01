@@ -10,9 +10,11 @@
     "format": "bun lint --fix && bunx prettier -w ."
   },
   "dependencies": {
+    "@types/three": "^0.179.0",
+    "next": "15.5.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "next": "15.5.2"
+    "three": "^0.179.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
