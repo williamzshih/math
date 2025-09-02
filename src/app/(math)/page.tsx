@@ -178,8 +178,6 @@ const Graph = memo(function Graph({
     const geometry = new THREE.PlaneGeometry(width, height, STEPS, STEPS);
 
     const position = geometry.getAttribute("position");
-    let minZ = Infinity;
-    let maxZ = -Infinity;
 
     for (let i = 0; i < position.count; i++) {
       const x = position.getX(i);
@@ -193,8 +191,6 @@ const Graph = memo(function Graph({
       }
 
       if (isFinite(z)) {
-        minZ = Math.min(minZ, z);
-        maxZ = Math.max(maxZ, z);
         position.setZ(i, z);
       } else position.setZ(i, 0);
     }
