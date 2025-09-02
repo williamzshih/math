@@ -1,14 +1,14 @@
 "use client";
 
+import * as math from "mathjs";
 import React, { useState, createContext, useContext } from "react";
 import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-
-const COLORS = ["#ff0000", "#00ff00", "#0000ff"];
+import { COLORS } from "@/constants";
 
 export interface FunctionConfig {
   id: string;
-  expression: string;
+  expression: math.MathNode;
   color: string;
   hidden?: boolean;
 }
@@ -20,7 +20,6 @@ export interface GraphConfig {
   yMax: number;
   zMin: number;
   zMax: number;
-  gridSize: number;
 }
 
 const MathContext = createContext<{
@@ -31,33 +30,35 @@ const MathContext = createContext<{
   addFunction: () => void;
   toggleFunction: (id: string) => void;
   removeFunction: (id: string) => void;
-  setGridSize: (gridSize: number) => void;
 } | null>(null);
 
-export function useMath() {
+export const useMath = () => {
   const context = useContext(MathContext);
   if (!context)
     throw new Error("useMath must be used within MathContext.Provider");
   return context;
-}
+};
 
-export default function ClientLayout({
+export default function MathLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const [expression, setExpression] = useState("");
   const [functions, setFunctions] = useState<FunctionConfig[]>([
-    { id: crypto.randomUUID(), expression: "x*y", color: COLORS[0] },
+    {
+      id: crypto.randomUUID(),
+      expression: math.parse("x*y"),
+      color: COLORS[0],
+    },
   ]);
-  const [config, setConfig] = useState<GraphConfig>({
+  const [config] = useState<GraphConfig>({
     xMin: -10,
     xMax: 10,
     yMin: -10,
     yMax: 10,
     zMin: -10,
     zMax: 10,
-    gridSize: 1,
   });
 
   const addFunction = () => {
@@ -67,7 +68,7 @@ export default function ClientLayout({
       ...prev,
       {
         id: crypto.randomUUID(),
-        expression,
+        expression: math.parse(expression),
         color: COLORS[functions.length % COLORS.length],
       },
     ]);
@@ -85,9 +86,6 @@ export default function ClientLayout({
   const removeFunction = (id: string) =>
     setFunctions((prev) => prev.filter((func) => func.id !== id));
 
-  const setGridSize = (gridSize: number) =>
-    setConfig((prev) => ({ ...prev, gridSize }));
-
   const value = {
     functions,
     config,
@@ -96,7 +94,6 @@ export default function ClientLayout({
     addFunction,
     toggleFunction,
     removeFunction,
-    setGridSize,
   };
 
   return (

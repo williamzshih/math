@@ -5,20 +5,15 @@ import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import {
   useMath,
-  type FunctionConfig,
   type GraphConfig,
+  type FunctionConfig,
 } from "@/app/math/layout";
-
-const STEPS = 200;
+import { STEPS } from "@/constants";
 
 function Grid({ config }: { config: GraphConfig }) {
   const lines: THREE.Vector3[][] = [];
 
-  for (
-    let x = Math.ceil(config.xMin);
-    x <= Math.floor(config.xMax);
-    x += config.gridSize
-  ) {
+  for (let x = Math.ceil(config.xMin); x <= Math.floor(config.xMax); x += 1) {
     lines.push([
       new THREE.Vector3(x, config.yMin, 0),
       new THREE.Vector3(x, config.yMax, 0),
@@ -29,11 +24,7 @@ function Grid({ config }: { config: GraphConfig }) {
     ]);
   }
 
-  for (
-    let y = Math.ceil(config.yMin);
-    y <= Math.floor(config.yMax);
-    y += config.gridSize
-  ) {
+  for (let y = Math.ceil(config.yMin); y <= Math.floor(config.yMax); y += 1) {
     lines.push([
       new THREE.Vector3(config.xMin, y, 0),
       new THREE.Vector3(config.xMax, y, 0),
@@ -44,11 +35,7 @@ function Grid({ config }: { config: GraphConfig }) {
     ]);
   }
 
-  for (
-    let z = Math.ceil(config.zMin);
-    z <= Math.floor(config.zMax);
-    z += config.gridSize
-  ) {
+  for (let z = Math.ceil(config.zMin); z <= Math.floor(config.zMax); z += 1) {
     lines.push([
       new THREE.Vector3(config.xMin, 0, z),
       new THREE.Vector3(config.xMax, 0, z),
@@ -159,9 +146,15 @@ function FunctionGraph({
   const xStep = (config.xMax - config.xMin) / STEPS;
   const yStep = (config.yMax - config.yMin) / STEPS;
 
-  for (let x = config.xMin; x <= config.xMax; x += xStep) {
-    for (let y = config.yMin; y <= config.yMax; y += yStep)
-      points.push(new THREE.Vector3(x, y, x * y)); // placeholder for now
+  try {
+    for (let x = config.xMin; x <= config.xMax; x += xStep) {
+      for (let y = config.yMin; y <= config.yMax; y += yStep)
+        points.push(
+          new THREE.Vector3(x, y, func.expression.evaluate({ x, y })),
+        );
+    }
+  } catch {
+    return null;
   }
 
   return <Line points={points} color={func.color} />;
