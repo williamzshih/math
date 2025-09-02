@@ -2,7 +2,7 @@ import * as katex from "katex";
 import { X } from "lucide-react";
 import * as math from "mathjs";
 import { useEffect, useRef, useState } from "react";
-import { useMath } from "@/app/math/layout";
+import { useMath } from "@/app/(math)/layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";

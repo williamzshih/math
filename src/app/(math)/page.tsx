@@ -9,7 +9,7 @@ import {
   useMath,
   type GraphConfig,
   type FunctionConfig,
-} from "@/app/math/layout";
+} from "@/app/(math)/layout";
 import { useSidebar } from "@/components/ui/sidebar";
 import { STEPS } from "@/constants";
 
