@@ -1,4 +1,4 @@
-export const STEPS = 50;
+export const STEPS = 100;
 export const COLORS = [
   "#ff0000", // red
   "#00ff00", // green
