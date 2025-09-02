@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { cookies } from "next/headers";
 import { ModeToggle } from "@/components/ModeToggle";
+import { SidebarToggle } from "@/components/SidebarToggle";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
@@ -42,6 +43,7 @@ export default async function RootLayout({
         >
           <SidebarProvider defaultOpen={defaultOpen}>
             {children}
+            <SidebarToggle />
           </SidebarProvider>
           <ModeToggle />
         </ThemeProvider>

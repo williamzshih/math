@@ -1,10 +1,9 @@
 "use client";
 
 import * as math from "mathjs";
-import React, { useState, createContext, useContext } from "react";
+import { useState, createContext, useContext } from "react";
 import { AppSidebar } from "@/components/AppSidebar";
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import { COLORS } from "@/constants";
+import { COLORS, CONFIG } from "@/constants";
 
 export interface FunctionConfig {
   id: string;
@@ -45,21 +44,8 @@ export default function MathLayout({
   children: React.ReactNode;
 }) {
   const [expression, setExpression] = useState("");
-  const [functions, setFunctions] = useState<FunctionConfig[]>([
-    {
-      id: crypto.randomUUID(),
-      expression: math.parse("x*y"),
-      color: COLORS[0],
-    },
-  ]);
-  const [config] = useState<GraphConfig>({
-    xMin: -10,
-    xMax: 10,
-    yMin: -10,
-    yMax: 10,
-    zMin: -10,
-    zMax: 10,
-  });
+  const [functions, setFunctions] = useState<FunctionConfig[]>([]);
+  const [config] = useState<GraphConfig>(CONFIG);
 
   const addFunction = () => {
     if (!expression.trim()) return;
@@ -99,10 +85,7 @@ export default function MathLayout({
   return (
     <MathContext.Provider value={value}>
       <AppSidebar />
-      <main>
-        <SidebarTrigger />
-        {children}
-      </main>
+      <main>{children}</main>
     </MathContext.Provider>
   );
 }
