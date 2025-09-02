@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+import { Geist, Geist_Mono } from "next/font/google";
 import { cookies } from "next/headers";
 import { ModeToggle } from "@/components/ModeToggle";
 import { SidebarToggle } from "@/components/SidebarToggle";
@@ -47,6 +48,7 @@ export default async function RootLayout({
           </SidebarProvider>
           <ModeToggle />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
