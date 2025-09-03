@@ -1,0 +1,17 @@
+{
+  "name": "Math",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node",
+  "build": {
+    "options": ["--progress=plain"]
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "oven.bun-vscode"
+      ]
+    }
+  },
+  "postCreateCommand": "bash create.sh"
+}
