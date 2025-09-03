@@ -208,7 +208,7 @@ const Graph = memo(function Graph({
         color={func.color}
         side={THREE.DoubleSide}
         transparent
-        opacity={0.5}
+        opacity={config.opacity}
         roughness={0.25}
         clippingPlanes={[
           new THREE.Plane(new THREE.Vector3(0, 0, 1), -config.zMin),
@@ -248,8 +248,13 @@ export default function MathPage() {
           localClippingEnabled: true,
         }}
       >
-        <Grid config={config} theme={theme} />
         <Axes config={config} />
+        {config.gridVisible && (
+          <>
+            <Grid config={config} theme={theme} />
+            <Axes config={config} />
+          </>
+        )}
         {functions.map(
           (func) =>
             !func.hidden && <Graph key={func.id} func={func} config={config} />,

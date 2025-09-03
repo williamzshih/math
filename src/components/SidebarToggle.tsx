@@ -15,9 +15,9 @@ export function SidebarToggle() {
       onClick={toggleSidebar}
     >
       {open ? (
-        <ChevronsLeft className="h-[1.2rem] w-[1.2rem]" />
+        <ChevronsLeft className="size-[1.2rem]" />
       ) : (
-        <ChevronsRight className="h-[1.2rem] w-[1.2rem]" />
+        <ChevronsRight className="size-[1.2rem]" />
       )}
       <span className="sr-only">Toggle sidebar</span>
     </Button>

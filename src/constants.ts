@@ -14,4 +14,6 @@ export const CONFIG = {
   yMax: 10,
   zMin: -10,
   zMax: 10,
+  opacity: 0.5,
+  gridVisible: true,
 };

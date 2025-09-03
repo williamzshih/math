@@ -3,6 +3,7 @@
 import * as math from "mathjs";
 import { useState, createContext, useContext } from "react";
 import { AppSidebar } from "@/components/AppSidebar";
+import Settings from "@/components/Settings";
 import { COLORS, CONFIG } from "@/constants";
 
 export interface FunctionConfig {
@@ -19,6 +20,8 @@ export interface GraphConfig {
   yMax: number;
   zMin: number;
   zMax: number;
+  opacity: number;
+  gridVisible: boolean;
 }
 
 const MathContext = createContext<{
@@ -29,6 +32,8 @@ const MathContext = createContext<{
   addFunction: () => void;
   toggleFunction: (id: string) => void;
   removeFunction: (id: string) => void;
+  setOpacity: (opacity: number) => void;
+  setGridVisible: (gridVisible: boolean) => void;
 } | null>(null);
 
 export const useMath = () => {
@@ -45,7 +50,7 @@ export default function MathLayout({
 }) {
   const [expression, setExpression] = useState("");
   const [functions, setFunctions] = useState<FunctionConfig[]>([]);
-  const [config] = useState<GraphConfig>(CONFIG);
+  const [config, setConfig] = useState<GraphConfig>(CONFIG);
 
   const addFunction = () => {
     if (!expression.trim()) return;
@@ -72,6 +77,12 @@ export default function MathLayout({
   const removeFunction = (id: string) =>
     setFunctions((prev) => prev.filter((func) => func.id !== id));
 
+  const setOpacity = (opacity: number) =>
+    setConfig((prev) => ({ ...prev, opacity }));
+
+  const setGridVisible = (gridVisible: boolean) =>
+    setConfig((prev) => ({ ...prev, gridVisible }));
+
   const value = {
     functions,
     config,
@@ -80,11 +91,14 @@ export default function MathLayout({
     addFunction,
     toggleFunction,
     removeFunction,
+    setOpacity,
+    setGridVisible,
   };
 
   return (
     <MathContext.Provider value={value}>
       <AppSidebar />
+      <Settings />
       <main>{children}</main>
     </MathContext.Provider>
   );
