@@ -9,7 +9,8 @@
       "extensions": [
         "esbenp.prettier-vscode",
         "bradlc.vscode-tailwindcss",
-        "oven.bun-vscode"
+        "oven.bun-vscode",
+        "anysphere.cpptools"
       ]
     }
   },
