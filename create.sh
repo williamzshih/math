@@ -14,6 +14,9 @@ cd emsdk
 ./emsdk activate latest
 source ./emsdk_env.sh
 
+echo "💬 Adding emscripten to PATH"
+echo "export PATH=\"\$HOME/emsdk/upstream/emscripten:\$PATH\"" >> ~/.bashrc
+
 echo "💬 Installing clangd"
 sudo apt update
 sudo apt-get install clangd-19

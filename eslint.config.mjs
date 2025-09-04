@@ -28,6 +28,7 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      "src/wasm/*.mjs",
     ],
   },
   perfectionist.configs["recommended-natural"],
