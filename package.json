@@ -7,7 +7,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "format": "bun lint --fix && bunx prettier -w ."
+    "format": "bun lint --fix && prettier -w ."
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.3",
