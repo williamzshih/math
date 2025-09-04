@@ -5,11 +5,12 @@ import { Button } from "@/components/ui/button";
 import { EmscriptenModule } from "@/wasm/wasm";
 import Module from "@/wasm/wasm.mjs";
 
+// type Result = ReturnType<EmscriptenModule["ccall"]>;
+type Result = Float64Array;
+
 export default function Test() {
   const [wasmModule, setWasmModule] = useState<EmscriptenModule | undefined>();
-  const [result, setResult] = useState<
-    ReturnType<EmscriptenModule["ccall"]> | undefined
-  >();
+  const [, setResult] = useState<Result | undefined>();
 
   useEffect(() => {
     (async () => {
@@ -20,12 +21,14 @@ export default function Test() {
 
   const handleClickButton = async () => {
     if (!wasmModule) return;
-    const start = performance.now();
 
-    const length = 100;
+    const length = 1000000;
     const arr = new Float64Array(
       Array.from({ length }, () => Math.random() * 100),
     );
+
+    const start = performance.now();
+
     const ptr = wasmModule._malloc(arr.byteLength);
     wasmModule.HEAPF64.set(arr, ptr >> 3);
     const result = wasmModule.ccall(
@@ -34,12 +37,21 @@ export default function Test() {
       ["number", "number"],
       [ptr, length],
     );
-
-    setResult(result);
+    const data = wasmModule.HEAPF64.slice(
+      result / Float64Array.BYTES_PER_ELEMENT,
+      result / Float64Array.BYTES_PER_ELEMENT + length,
+    );
     wasmModule._free(ptr);
 
     const end = performance.now();
-    console.log(`Time: ${end - start} ms`);
+    console.log(`Wasm Time: ${end - start} ms`);
+
+    const tsStart = performance.now();
+    arr.sort((a, b) => a - b);
+    const tsEnd = performance.now();
+    console.log(`TS Time: ${tsEnd - tsStart} ms`);
+
+    setResult(data);
   };
 
   return (
@@ -47,7 +59,6 @@ export default function Test() {
       <Button onClick={handleClickButton} disabled={!wasmModule}>
         Call wasm
       </Button>
-      {result !== undefined && <p>Result: {result}</p>}
     </div>
   );
 }
